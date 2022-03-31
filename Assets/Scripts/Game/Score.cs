@@ -12,6 +12,6 @@ public class Score : MonoBehaviour {
     
     public void removeScore(){
         score = score - 1;
-        print("MARCHEHEEE ");
+
     }
 }
