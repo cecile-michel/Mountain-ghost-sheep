@@ -8,7 +8,6 @@ public class GhostSheepBehavior : AgentBehaviour
 
     // implementer que le sheep bouge dans les coins
     public void Start() {
-        print("Test");
     }
 
     public override Steering GetSteering()
