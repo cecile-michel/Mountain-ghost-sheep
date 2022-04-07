@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class BackgroundHelper : MonoBehaviour
 {
-    public float speed = 0;
+    public float speed = 0.0F;
     float pos = 0;
     private RawImage image;
     // Start is called before the first frame update
