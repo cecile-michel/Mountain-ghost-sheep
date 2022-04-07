@@ -11,4 +11,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/SpaceGhostSheepGame.unity
     guid: fb7b2b9837997449888ee900a1d38fa1
+  - enabled: 1
+    path: Assets/Scenes/QuitScene.unity
+    guid: 884dde49518f84417a20da3ab81e4708
   m_configObjects: {}
