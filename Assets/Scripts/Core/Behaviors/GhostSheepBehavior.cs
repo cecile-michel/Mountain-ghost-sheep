@@ -63,4 +63,8 @@ public class GhostSheepBehavior : AgentBehaviour
         Invoke("BecomeGhost", Random.Range(30, 60));
     }
 
+    public int getState() {
+        return state;
+    }
+
 }

@@ -22,8 +22,9 @@ public class CollisionHandler : MonoBehaviour
         GameObject thePlayer = players[0];
         print(col.gameObject.name);
         print(players[0].gameObject.name);
+        
         for(int i = 0; i < players.Length; i ++){
-            if(col.gameObject.name == players[i].gameObject.name){
+            if(col.gameObject.name == players[i].gameObject.name && this.GetComponent<GhostSheepBehavior>().getState() == 1){
                 thePlayer = players[i];
                 thePlayer.GetComponent<Score>().removeScore();
             }
