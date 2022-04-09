@@ -25,7 +25,9 @@ public class Score : MonoBehaviour {
     }
     
     public void removeScore(){
-        score = score - 1;
+        if (score != 0) {
+            score = score - 1;
+        }
         displayScore();
 
     }
