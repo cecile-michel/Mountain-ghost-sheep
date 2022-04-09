@@ -14,6 +14,8 @@ public class Score : MonoBehaviour {
         null_ = 2
     }
     public Dog dog;
+    public AudioSource losePoint;
+    public AudioSource winPoint;
     
     public void Start() {
         displayScore();
@@ -21,12 +23,14 @@ public class Score : MonoBehaviour {
 
     public void addScore(){
         score = score + 1;
+        winPoint.Play();
         displayScore();
     }
     
     public void removeScore(){
         if (score != 0) {
             score = score - 1;
+            losePoint.Play();
         }
         displayScore();
 

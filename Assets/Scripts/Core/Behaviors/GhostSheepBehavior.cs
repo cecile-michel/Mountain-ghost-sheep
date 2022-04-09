@@ -5,6 +5,9 @@ public class GhostSheepBehavior : AgentBehaviour
 {    
     public GameObject[] players;
     private int state = 0;
+    // private AudioSource[] audios;
+    public AudioSource transformIntoLamb;
+    public AudioSource transformIntoWolf;
 
     // implementer que le sheep bouge dans les coins
     public void Start() {
@@ -53,6 +56,7 @@ public class GhostSheepBehavior : AgentBehaviour
     {
         state = 1;
         agent.SetVisualEffect(VisualEffect.VisualEffectConstAll, Color.red, 255);
+        transformIntoWolf.Play();
         Invoke("BecomeSheep", Random.Range(10, 20));
     }
 
@@ -60,6 +64,7 @@ public class GhostSheepBehavior : AgentBehaviour
     {
         state = 0;
         agent.SetVisualEffect(VisualEffect.VisualEffectConstAll, Color.green, 255);
+        transformIntoLamb.Play();
         Invoke("BecomeGhost", Random.Range(30, 60));
     }
 
