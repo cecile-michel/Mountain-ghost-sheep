@@ -21,7 +21,7 @@ public class Timer : MonoBehaviour
     // Start is called before the first frame update
     public void Start() {
         timerText = GetComponent<Text>();
-        timerText.text = "Time remaining " + string.Format("{0:00}:{1:00}", 0, 0);
+        timerText.text = "temps restant " + string.Format("{0:00}:{1:00}", 0, 0);
         timeLeft = maxMinutes*60;
     }
 
@@ -30,7 +30,7 @@ public class Timer : MonoBehaviour
         if (timeLeft > 0) {
             timeLeft -= Time.deltaTime;
             timerText = GetComponent<Text>();
-            timerText.text = "Time remaining " + string.Format("{0:00}:{1:00}", Math.Truncate(timeLeft/60), timeLeft - Math.Truncate(timeLeft/60)*60);
+            timerText.text = "temps restant " + string.Format("{0:00}:{1:00}", Math.Truncate(timeLeft/60), timeLeft - Math.Truncate(timeLeft/60)*60);
 
         } else {
             // STOP THE GAME
