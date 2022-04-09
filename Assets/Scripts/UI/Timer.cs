@@ -10,7 +10,7 @@ public class Timer : MonoBehaviour
     private float initTimerValue;
     private Text timerText;
     public Slider slider;
-    public float maxMinutes = 5;
+    public float maxMinutes = 2;
     public GameManager gameManager;
 
     private float timeLeft;
@@ -33,9 +33,7 @@ public class Timer : MonoBehaviour
             timerText.text = "temps restant " + string.Format("{0:00}:{1:00}", Math.Truncate(timeLeft/60), timeLeft - Math.Truncate(timeLeft/60)*60);
 
         } else {
-            // STOP THE GAME
-        }
-        //IMPLEEMT YOUR CODE HERE
-        
+            gameManager.endGame();
+        }        
     }
 }

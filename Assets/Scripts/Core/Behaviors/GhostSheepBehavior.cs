@@ -5,6 +5,7 @@ public class GhostSheepBehavior : AgentBehaviour
 {    
     public GameObject[] players;
     private int state = 0;
+    private bool isPaused = false;
     // private AudioSource[] audios;
     public AudioSource transformIntoLamb;
     public AudioSource transformIntoWolf;
@@ -22,7 +23,7 @@ public class GhostSheepBehavior : AgentBehaviour
         //implement your code here.
 
         players = GameObject.FindGameObjectsWithTag("Player");
-        if (players.Length == 0) {
+        if (players.Length == 0 || isPaused) {
             return steering;
         }
         float minDist = 10000;
@@ -70,6 +71,16 @@ public class GhostSheepBehavior : AgentBehaviour
 
     public int getState() {
         return state;
+    }
+
+    public void pause()
+    {
+        isPaused = true;
+    }
+
+    public void unPause()
+    {
+        isPaused = false;
     }
 
 }

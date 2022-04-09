@@ -11,11 +11,17 @@ public enum InputKeyboard{
 public class MoveWithKeyboardBehavior : AgentBehaviour
 {
     Vector3 m_Movement;
-    public InputKeyboard inputKeyboard; 
+    public InputKeyboard inputKeyboard;
+    private bool isPaused = false;
 
     public override Steering GetSteering()
     {
         Steering steering = new Steering();
+
+        if (isPaused)
+        {
+            return steering;
+        }
         float horizontal = 0;
         float vertical = 0;
         
@@ -34,5 +40,12 @@ public class MoveWithKeyboardBehavior : AgentBehaviour
         return steering;
     }
 
-
+    public void pause()
+    {
+        isPaused = true;
+    }
+    public void unPause()
+    {
+        isPaused = false;
+    }
 }
