@@ -17,15 +17,14 @@ public class BackgroundHelper : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
-        pos += speed;
+        if (image != null) {
+            pos += speed;
 
-        if (pos > 1.0F)
+            if (pos > 1.0F)
 
-            pos -= 1.0F;
+                pos -= 1.0F;
 
-        image.uvRect = new Rect(pos, 0, 1, 1);
-        
-
+            image.uvRect = new Rect(pos, 0, 1, 1);
+        }
     }
 }
