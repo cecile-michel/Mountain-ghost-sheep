@@ -24,7 +24,7 @@ public class RingTrigger : MonoBehaviour
         float min = 10000.0f;
         GameObject thePlayer = players[0];
 
-        if(other.transform.parent.gameObject.CompareTag("GhostSheep")){
+        if(other.transform.parent.gameObject.CompareTag("GhostSheep") && sheep[0].GetComponent<GhostSheepBehavior>().getState() == 0){
             for(int i = 0; i < players.Length; i++){
                 float dist = Vector3.Distance(sheep[0].transform.position, players[i].transform.position);
                 if(dist < min){
