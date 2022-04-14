@@ -117,7 +117,7 @@ public class CelluloConnection : MonoBehaviour
         }
     }
 
-    public void Destroy(){
+    public void onDestroy(){
         DisconnectFromCelluloRobot();
     }
 
