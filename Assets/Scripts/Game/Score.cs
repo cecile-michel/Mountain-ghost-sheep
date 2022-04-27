@@ -21,15 +21,15 @@ public class Score : MonoBehaviour {
         displayScore();
     }
 
-    public void addScore(){
-        score = score + 1;
+    public void addScore(int amount = 1){
+        score = score + amount;
         winPoint.Play();
         displayScore();
     }
     
-    public void removeScore(){
-        if (score != 0) {
-            score = score - 1;
+    public void removeScore(int amount = 1){
+        if (score >= amount) {
+            score = score - amount;
             losePoint.Play();
         }
         displayScore();
