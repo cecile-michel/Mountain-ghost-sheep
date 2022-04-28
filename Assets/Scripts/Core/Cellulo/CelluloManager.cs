@@ -109,8 +109,11 @@ public class CelluloManager : MonoBehaviour
 	/// </summary>
     void Awake()
     {
+#if UNITY_EDITOR_LINUX || UNITY_STANDALONE_LINUX 
         Environment.SetEnvironmentVariable("BLUETOOTH_FORCE_DBUS_LE_VERSION","1");
+#elif UNITY_EDITOR_OSX || UNITY_STANDALONE_OSX
         Environment.SetEnvironmentVariable("QT_EVENT_DISPATCHER_CORE_FOUNDATION","1");
+#endif
 #if !UNITY_WEBGL 
         try
         {
@@ -119,8 +122,10 @@ public class CelluloManager : MonoBehaviour
         }
         catch (Exception e)
         {
-            Debug.Log("error initializing lib: " + e.Message);
+            Debug.LogWarning("Initializing lib(" + e.Message+ ") failed, make sure you have installed the appropriate cellulo plugin. If you are not using the real cellulos you can ignore this.");
         }
+# else 
+    Debug.LogWarning("Connection to Cellulo Robots are not supported on WebGL!");
 #endif
     }
 
@@ -135,19 +140,6 @@ public class CelluloManager : MonoBehaviour
             }
         }
     }
-
-    /// <summary>
-    /// Check user inputs at each frame.
-    /// </summary>
-    void Update()
-    {
-        // Application quit
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            UnityEngine.Application.Quit();
-        }
-    }
-
 	/// <summary>
 	/// Displays and hides the cellulo connection and cellulo scanner canvas
 	/// </summary>

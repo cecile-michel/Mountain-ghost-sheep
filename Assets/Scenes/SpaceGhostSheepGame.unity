@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.37826666, g: 0.3131455, b: 0.527997, a: 1}
+  m_IndirectSpecularColor: {r: 0.31300914, g: 0.29364476, b: 0.5140396, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -3848,6 +3848,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   endMenu: {fileID: 1880787210}
+  pauseMenu: {fileID: 2077526950}
   player1Text: {fileID: 1118671823}
   player2Text: {fileID: 557867669}
   bothText: {fileID: 58415944}

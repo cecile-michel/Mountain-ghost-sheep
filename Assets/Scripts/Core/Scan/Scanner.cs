@@ -58,10 +58,13 @@ public class Scanner {
     {
         if (isScanning)
         {
-            stopScanning(id);
-            isScanning = false;
+#if !(UNITY_EDITOR_OSX || UNITY_STANDALONE_OSX)
+        stopScanning(id);
+#endif
+        isScanning = false;
         }
     }
+
     [DllImport("cellulolib")]
     private static extern int getNumberOfRobotsFound(long id);
     /// <summary>

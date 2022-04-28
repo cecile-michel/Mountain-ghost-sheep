@@ -73,10 +73,13 @@ public class ScanPanel : MonoBehaviour
 	/// </summary>
     public void ClearList()
     {
+#if !(UNITY_EDITOR_OSX || UNITY_STANDALONE_OSX)
         _scanner.ClearRobotsFound();
+#endif
         foreach (KeyValuePair<string, GameObject> entry in _celluloScannedList)
         {
-            Destroy(_celluloScannedList[entry.Key]);
+            if(!entry.Value.GetComponent<ScannerListElement>()._isConnected)
+                Destroy(_celluloScannedList[entry.Key]);
         }
         _celluloScannedList.Clear();
     }
