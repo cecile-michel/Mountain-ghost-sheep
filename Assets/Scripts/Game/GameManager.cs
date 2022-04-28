@@ -14,6 +14,7 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         endMenu.SetActive(false);
+        
     }
 
     // Update is called once per frame
