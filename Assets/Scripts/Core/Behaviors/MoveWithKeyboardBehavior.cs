@@ -14,12 +14,21 @@ public class MoveWithKeyboardBehavior : AgentBehaviour
     public InputKeyboard inputKeyboard;
     public bool isPaused;
     public GameObject pauseMenuUI;
+
+    // to change the color of the cellulo (doesn't work if I put it in another script idk why)
+    public int player;
+    private ChangeColor ChangeColor;
     
     void Start()
     {
         isPaused = false;
         Time.timeScale = 1f;
-        
+        // initialise color of the cellulos
+        if (player == 0) {
+            agent.SetVisualEffect(0, ChangeColor.joueur1, 0);
+        } else {
+            agent.SetVisualEffect(0, ChangeColor.joueur2, 0);
+        }
     }
 
     // Update is called once per frame

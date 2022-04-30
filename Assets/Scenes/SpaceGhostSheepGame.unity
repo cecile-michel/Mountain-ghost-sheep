@@ -288,18 +288,6 @@ MonoBehaviour:
   inputKeyboard: 1
   isPaused: 0
   pauseMenuUI: {fileID: 2077526950}
---- !u!114 &22013620
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 22013617}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 586ea572a3c199a41bcb78d517145852, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
   player: 1
 --- !u!1 &58415944
 GameObject:
@@ -3829,7 +3817,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   slider: {fileID: 0}
-  maxMinutes: 2
   gameManager: {fileID: 1239838462}
 --- !u!1 &1239838461
 GameObject:
@@ -3922,18 +3909,6 @@ MonoBehaviour:
   inputKeyboard: 0
   isPaused: 0
   pauseMenuUI: {fileID: 2077526950}
---- !u!114 &1296830183
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1296830180}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 586ea572a3c199a41bcb78d517145852, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
   player: 0
 --- !u!1 &1308748566
 GameObject:
