@@ -85,4 +85,8 @@ public class MoveWithKeyboardBehavior : AgentBehaviour
         isPaused = false;
 
     }
+
+    public void setPause(bool b) {
+        isPaused = b;
+    }
 }
