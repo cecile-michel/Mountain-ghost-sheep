@@ -22,15 +22,16 @@ public class AudioManager : MonoBehaviour
     void Start()
     {
         firstPlayInt = PlayerPrefs.GetInt(FirstPlay);
-        if(firstPlayInt == 0)
+        print(firstPlayInt);
+        if(firstPlayInt == -1)
         {
-            backgroundFloat = .025f;
-            soundEffectsFloat = .75f;
+            backgroundFloat = .45f;
+            soundEffectsFloat = .35f;
             backgroundSlider.value = backgroundFloat;
             soundEffectsSlider.value = soundEffectsFloat;
             PlayerPrefs.SetFloat(BackgroundPref, backgroundFloat);
             PlayerPrefs.SetFloat(SoundEffectsPref, soundEffectsFloat);
-            PlayerPrefs.SetInt(FirstPlay, -1);
+            PlayerPrefs.SetInt(FirstPlay, 0);
 
         }
         else 

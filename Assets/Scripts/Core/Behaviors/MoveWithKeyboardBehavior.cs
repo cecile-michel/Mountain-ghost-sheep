@@ -86,7 +86,17 @@ public class MoveWithKeyboardBehavior : AgentBehaviour
 
     }
 
-    public void setPause(bool b) {
-        isPaused = b;
+    // functions for step 1 milestone 2 (on ice and on stone)
+    public void changeDrivability(bool b) {
+        agent.SetCasualBackdriveAssistEnabled(b);
+    }
+
+    public void changeWalkOnTexture(int choice) {
+        // if choice == 1 move on stone else move on ice
+        if (choice == 1) {
+            agent.MoveOnStone();
+        } else {
+            agent.MoveOnIce();
+        }
     }
 }
