@@ -6,6 +6,7 @@ TagManager:
   tags:
   - GhostSheep
   - score1
+  - PowerUp
   layers:
   - Default
   - TransparentFX
