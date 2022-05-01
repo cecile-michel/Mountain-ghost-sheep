@@ -15,7 +15,7 @@ public class GhostSheepBehavior : AgentBehaviour
         agent.SetVisualEffect(VisualEffect.VisualEffectConstAll, Color.green, 255);
         players = GameObject.FindGameObjectsWithTag("Player");
 
-        Invoke("BecomeGhost", Random.Range(30, 60));
+        Invoke("BecomeGhost", Random.Range(15, 25));
     }
 
     public override Steering GetSteering()
@@ -76,7 +76,7 @@ public class GhostSheepBehavior : AgentBehaviour
         players[1].GetComponent<MoveWithKeyboardBehavior>().changeDrivability(true);
         players[1].GetComponent<MoveWithKeyboardBehavior>().changeWalkOnTexture(0);
         transformIntoLamb.Play();
-        Invoke("BecomeGhost", Random.Range(30, 60));
+        Invoke("BecomeGhost", Random.Range(15, 25));
     }
 
     public int getState() {

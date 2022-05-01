@@ -10,8 +10,8 @@ public class ChangeColor : MonoBehaviour
     public Slider red;
     public Slider green;
     public Slider blue;
-    static public Color joueur1 = new Color(0, 0, 0);
-    static public Color joueur2 = new Color(0, 1, 0);
+    static public Color joueur1 = new Color(0, 0, 1);
+    static public Color joueur2 = new Color(1, 0.5f, 0);
     public int player;
     // Start is called before the first frame update
     void Start()
