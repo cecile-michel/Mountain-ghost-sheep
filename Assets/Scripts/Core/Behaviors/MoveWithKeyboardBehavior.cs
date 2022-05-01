@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 //Input Keys
 public enum InputKeyboard{
@@ -13,16 +14,24 @@ public class MoveWithKeyboardBehavior : AgentBehaviour
     Vector3 m_Movement;
     public InputKeyboard inputKeyboard;
     public bool isPaused;
+    public bool longPressed = false;
+    public bool isRunning = false;
     public GameObject pauseMenuUI;
+    public bool gameOver;
 
     // to change the color of the cellulo (doesn't work if I put it in another script idk why)
     public int player;
     private ChangeColor ChangeColor;
+
+    private Vector3 initPosition;
+    private Quaternion initRotation;
     
     void Start()
     {
-        isPaused = false;
-        Time.timeScale = 1f;
+        gameOver = false;
+        isPaused = true;
+        initPosition = this.gameObject.transform.position;
+        initRotation = this.gameObject.transform.rotation;
         // initialise color of the cellulos
         if (player == 0) {
             agent.SetVisualEffect(0, ChangeColor.joueur1, 0);
@@ -31,20 +40,28 @@ public class MoveWithKeyboardBehavior : AgentBehaviour
         }
     }
 
+    public void restartGame()
+    {
+        this.gameObject.transform.SetPositionAndRotation(initPosition, initRotation);
+        isRunning = true;
+    }
+
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetKeyDown("space") && isPaused == false){
-            pause();
-        
-        } else if(Input.GetKeyDown("space") && isPaused == true){
-            unPause();
+        if (inputKeyboard == InputKeyboard.wasd)
+        {
+            if (Input.GetKeyDown("space") && isPaused == false)
+            {
+                pause();
+
+            }
+            else if (Input.GetKeyDown("space") && isPaused == true)
+            {
+                unPause();
+            }
         }
-
-                
-    }
-    
-
+    }    
 
 
     public override Steering GetSteering()
@@ -57,12 +74,10 @@ public class MoveWithKeyboardBehavior : AgentBehaviour
         if(InputKeyboard.wasd == inputKeyboard){
            horizontal = Input.GetAxis ("Horizontal_wasd");
            vertical = Input.GetAxis ("Vertical_wasd");
-           Time.timeScale = 1f;
            
         } else if (InputKeyboard.arrows == inputKeyboard) {
             horizontal = Input.GetAxis ("Horizontal_arrows");
             vertical = Input.GetAxis ("Vertical_arrows");
-            Time.timeScale = 1f;
         }
         
         steering.linear = new Vector3(horizontal, 0, vertical)* agent.maxAccel; 
@@ -76,14 +91,23 @@ public class MoveWithKeyboardBehavior : AgentBehaviour
         pauseMenuUI.SetActive(true);
         Time.timeScale = 0f;
         isPaused = true;
-
+        GameObject ghostSheep = GameObject.FindGameObjectWithTag("GhostSheep");
+        ghostSheep.GetComponent<GhostSheepBehavior>().pause();
     }
     public void unPause()
     {
-        pauseMenuUI.SetActive(false);
-        Time.timeScale = 1f;
-        isPaused = false;
-
+        if (!isRunning)
+        {
+            pauseMenuUI.transform.Find("StartButton").gameObject.GetComponent<Button>().onClick.Invoke();
+        }
+        else
+        {
+            pauseMenuUI.SetActive(false);
+            Time.timeScale = 1f;
+            isPaused = false;
+            GameObject ghostSheep = GameObject.FindGameObjectWithTag("GhostSheep");
+            ghostSheep.GetComponent<GhostSheepBehavior>().unPause();
+        }
     }
 
     // functions for step 1 milestone 2 (on ice and on stone)
@@ -98,5 +122,36 @@ public class MoveWithKeyboardBehavior : AgentBehaviour
         } else {
             agent.MoveOnIce();
         }
+    }
+
+    public override void OnCelluloLongTouch(int key)
+    {
+        GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+        GameObject otherPlayer = players[0];
+
+        for (int i = 0; i < players.Length; i++)
+        {
+            if (this.gameObject.name != players[i].gameObject.name)
+            {
+                otherPlayer = players[i];
+            }
+        }
+
+        MoveWithKeyboardBehavior otherBehavior = otherPlayer.GetComponent<MoveWithKeyboardBehavior>();
+        if (otherBehavior.longPressed)
+        {
+            if (isPaused || otherBehavior.isPaused)
+            {
+                unPause();
+                otherBehavior.unPause();
+                longPressed = false;
+                otherBehavior.longPressed = false;
+            }
+        }
+        else if (isPaused || otherBehavior.isPaused)
+        {
+            longPressed = true;
+        }
+        base.OnCelluloLongTouch(key);
     }
 }

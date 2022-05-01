@@ -10,10 +10,24 @@ public class GhostSheepBehavior : AgentBehaviour
     public AudioSource transformIntoLamb;
     public AudioSource transformIntoWolf;
 
+    private Vector3 initPosition;
+    private Quaternion initRotation;
+
     // implementer que le sheep bouge dans les coins
     public void Start() {
+        initPosition = this.gameObject.transform.position;
+        initRotation = this.gameObject.transform.rotation;
+
         agent.SetVisualEffect(VisualEffect.VisualEffectConstAll, Color.green, 255);
+    }
+
+    public void restartGame()
+    {
         players = GameObject.FindGameObjectsWithTag("Player");
+        this.gameObject.transform.SetPositionAndRotation(initPosition, initRotation);
+
+        CancelInvoke();
+        BecomeSheep();
 
         Invoke("BecomeGhost", Random.Range(15, 25));
     }

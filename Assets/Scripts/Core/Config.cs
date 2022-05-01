@@ -26,8 +26,8 @@ public static class Config
 
     /* Scaling between the real map and the virtual one; 
     The default is that 10 units in unity = min(x dimension of real map, y dimension of real map) */
-    public static int REAL_MAP_DIMENSION_X = 1189 ; // in mm 
-    public static int REAL_MAP_DIMENSION_Y = 841; // in mm 
+    public static int REAL_MAP_DIMENSION_X = 297 ; // in mm 
+    public static int REAL_MAP_DIMENSION_Y = 420; // in mm 
 
     public static float CELLULO_SCALE = 1000.0f/ Mathf.Min(REAL_MAP_DIMENSION_X,REAL_MAP_DIMENSION_Y);
 

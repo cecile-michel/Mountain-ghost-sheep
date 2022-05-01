@@ -21,19 +21,27 @@ public class Score : MonoBehaviour {
         displayScore();
     }
 
+    public void resetScore()
+    {
+        score = 0;
+        displayScore();
+    }
+
     public void addScore(int amount = 1){
         score = score + amount;
         winPoint.Play();
         displayScore();
     }
     
-    public void removeScore(int amount = 1){
-        if (score >= amount) {
+    public int removeScore(int amount = 1){
+        int diff = Mathf.Min(score, amount);
+        if (diff > 0) {
             score = score - amount;
             losePoint.Play();
         }
         displayScore();
 
+        return diff;
     }
 
     public void displayScore() {

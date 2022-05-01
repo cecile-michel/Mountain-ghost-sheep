@@ -12,7 +12,7 @@ public class GemTrigger : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        respawn();
+
     }
 
 
@@ -32,8 +32,9 @@ public class GemTrigger : MonoBehaviour
         }
     }
 
-    void respawn()
+    public void respawn()
     {
+        CancelInvoke();
         float x = Random.Range(-Config.UNITY_MAP_DIMENSION_X / 2, Config.UNITY_MAP_DIMENSION_X / 2);
         float y = Random.Range(-Config.UNITY_MAP_DIMENSION_Y / 2, Config.UNITY_MAP_DIMENSION_Y / 2);
         this.gameObject.transform.localPosition = new Vector3(x, -4.7f, y);

@@ -27,6 +27,7 @@ public class Timer : MonoBehaviour
         timerText = GetComponent<Text>();
         timerText.text = "temps restant " + string.Format("{0:00}:{1:00}", 0, 0);
         timeLeft = maxMinutes*60;
+        Time.timeScale = 0f;
     }
 
     // Update is called once per frame
@@ -36,8 +37,18 @@ public class Timer : MonoBehaviour
             timerText = GetComponent<Text>();
             timerText.text = "temps restant " + string.Format("{0:00}:{1:00}", Math.Truncate(timeLeft/60), timeLeft - Math.Truncate(timeLeft/60)*60);
 
-        } else {
+        } else if (Time.timeScale > 0f){
+            Time.timeScale = 0f;
             gameManager.endGame();
         }        
+    }
+
+    public void restart()
+    {
+        maxMinutes = TimeManager.time;
+        timerText = GetComponent<Text>();
+        timerText.text = "temps restant " + string.Format("{0:00}:{1:00}", 0, 0);
+        timeLeft = maxMinutes * 60;
+        Time.timeScale = 1f;
     }
 }

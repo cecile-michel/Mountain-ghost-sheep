@@ -47,8 +47,8 @@ public class PowerUpHandler : MonoBehaviour
                     switch (activePowerUps[p-numRemoved].Item1)
                     {
                         case "steal":
-                            otherPlayer.GetComponent<Score>().removeScore(2);
-                            this.GetComponent<Score>().addScore(2);
+                            int amount = otherPlayer.GetComponent<Score>().removeScore(2);
+                            this.GetComponent<Score>().addScore(amount);
                             activePowerUps.RemoveAt(p);
                             numRemoved++;
                             break;
@@ -57,6 +57,11 @@ public class PowerUpHandler : MonoBehaviour
             }
         }
 
+    }
+
+    public void clearPowerUps()
+    {
+        activePowerUps = new List<Tuple<string, float>>();
     }
 
     public void addPowerUp(string powerUpName)

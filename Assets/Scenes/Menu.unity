@@ -599,8 +599,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1331234543}
   m_HandleRect: {fileID: 1331234542}
   m_Direction: 2
-  m_Value: 1
-  m_Size: 0.37796238
+  m_Value: 1.0000004
+  m_Size: 0.30523422
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -1857,8 +1857,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -13.890015, y: -233}
-  m_SizeDelta: {x: -28.48, y: 1647.92}
+  m_AnchoredPosition: {x: -13.890015, y: -204.84}
+  m_SizeDelta: {x: -28.48, y: 2074.91}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &479847659
 MonoBehaviour:
@@ -1887,8 +1887,10 @@ MonoBehaviour:
     point you should put the green robot (sheep) in the green ring. The player who's
     closest to the sheep at the time will earn the point.\n\nRandomly during the
     game, the sheep turn into a monster that chases you and if it catches you, you
-    will lose a point.\n\nThe game ends after the time chosen in the settings. \n\nMay
-    the odds be ever in your favor.\n\n"
+    will lose a point.\n\nThe game ends after the time chosen in the settings. \nThe
+    game can be paused with the space key and started/unpaused with the space key
+    or by long-pressing a cellulo button on both player cellulos.\n\nMay the odds
+    be ever in your favor.\n\n"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: f57507c2f46f918a98d0ff46b99dbde3, type: 2}
   m_sharedMaterial: {fileID: 7309128552149658453, guid: f57507c2f46f918a98d0ff46b99dbde3, type: 2}
@@ -1951,7 +1953,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: -406.10046, z: 0.05731203, w: -0.5202942}
+  m_margin: {x: 0, y: -406.10046, z: 0.05731203, w: -2.124817}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -3560,8 +3562,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -0.0024414062, y: -311.815}
-  m_SizeDelta: {x: 0, y: -1381.49}
+  m_AnchoredPosition: {x: -0.0024414062, y: -431.25522}
+  m_SizeDelta: {x: 0, y: -1620.37}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &823513247
 MonoBehaviour:
@@ -5639,7 +5641,7 @@ RectTransform:
   m_Father: {fileID: 460177351}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0.6220376}
+  m_AnchorMin: {x: 0, y: 0.6947658}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 20}

@@ -10,18 +10,47 @@ public class GameManager : MonoBehaviour
     public GameObject player1Text;
     public GameObject player2Text;
     public GameObject bothText;
+    public GameObject timer;
 
     // Start is called before the first frame update
     void Start()
     {
         endMenu.SetActive(false);
-        
+        Time.timeScale = 0f;
     }
 
     // Update is called once per frame
     void Update()
     {
                 
+    }
+
+    public void startGame()
+    {
+        foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player"))
+        {
+            player.GetComponent<MoveWithKeyboardBehavior>().restartGame();
+            player.GetComponent<Score>().resetScore();
+            player.GetComponent<PowerUpHandler>().clearPowerUps();
+        }
+        GameObject ghostSheep = GameObject.FindGameObjectWithTag("GhostSheep");
+        ghostSheep.GetComponent<GhostSheepBehavior>().restartGame();
+        
+        timer.GetComponent<Timer>().restart();
+
+        foreach (GameObject powerup in GameObject.FindGameObjectsWithTag("PowerUp"))
+        {
+            powerup.GetComponent<GemTrigger>().respawn();
+        }
+    }
+
+    public void preStartGame()
+    {
+        GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+        foreach (GameObject player in players)
+        {
+            player.GetComponent<MoveWithKeyboardBehavior>().gameOver = false;
+        }
     }
 
     public void endGame()
@@ -31,6 +60,8 @@ public class GameManager : MonoBehaviour
         GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
         foreach (GameObject player in players)
         {
+            player.GetComponent<MoveWithKeyboardBehavior>().isRunning = false;
+            player.GetComponent<MoveWithKeyboardBehavior>().gameOver = true;
             player.GetComponent<MoveWithKeyboardBehavior>().pause();
             if (player.GetComponent<Score>().score > maxScore)
             {
