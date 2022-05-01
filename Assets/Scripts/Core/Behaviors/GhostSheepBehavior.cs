@@ -13,7 +13,9 @@ public class GhostSheepBehavior : AgentBehaviour
     // implementer que le sheep bouge dans les coins
     public void Start() {
         agent.SetVisualEffect(VisualEffect.VisualEffectConstAll, Color.green, 255);
-        Invoke("BecomeGhost", Random.Range(30, 60));
+        players = GameObject.FindGameObjectsWithTag("Player");
+
+        Invoke("BecomeGhost", Random.Range(15, 25));
     }
 
     public override Steering GetSteering()
@@ -22,7 +24,7 @@ public class GhostSheepBehavior : AgentBehaviour
         Steering steering = new Steering();
         //implement your code here.
 
-        players = GameObject.FindGameObjectsWithTag("Player");
+        // players = GameObject.FindGameObjectsWithTag("Player");
         if (players.Length == 0 || isPaused) {
             return steering;
         }
@@ -57,6 +59,10 @@ public class GhostSheepBehavior : AgentBehaviour
     {
         state = 1;
         agent.SetVisualEffect(VisualEffect.VisualEffectConstAll, Color.red, 255);
+        players[0].GetComponent<MoveWithKeyboardBehavior>().changeDrivability(false);
+        players[0].GetComponent<MoveWithKeyboardBehavior>().changeWalkOnTexture(1);
+        players[1].GetComponent<MoveWithKeyboardBehavior>().changeDrivability(false);
+        players[1].GetComponent<MoveWithKeyboardBehavior>().changeWalkOnTexture(1);
         transformIntoWolf.Play();
         Invoke("BecomeSheep", Random.Range(10, 20));
     }
@@ -65,8 +71,12 @@ public class GhostSheepBehavior : AgentBehaviour
     {
         state = 0;
         agent.SetVisualEffect(VisualEffect.VisualEffectConstAll, Color.green, 255);
+        players[0].GetComponent<MoveWithKeyboardBehavior>().changeDrivability(true);
+        players[0].GetComponent<MoveWithKeyboardBehavior>().changeWalkOnTexture(0);
+        players[1].GetComponent<MoveWithKeyboardBehavior>().changeDrivability(true);
+        players[1].GetComponent<MoveWithKeyboardBehavior>().changeWalkOnTexture(0);
         transformIntoLamb.Play();
-        Invoke("BecomeGhost", Random.Range(30, 60));
+        Invoke("BecomeGhost", Random.Range(15, 25));
     }
 
     public int getState() {
