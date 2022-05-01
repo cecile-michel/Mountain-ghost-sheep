@@ -6,6 +6,7 @@ using TMPro;
 public class GameManager : MonoBehaviour
 {
     public GameObject endMenu;
+    public GameObject pauseMenu;
     public GameObject player1Text;
     public GameObject player2Text;
     public GameObject bothText;
@@ -14,6 +15,7 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         endMenu.SetActive(false);
+        
     }
 
     // Update is called once per frame
@@ -44,6 +46,7 @@ public class GameManager : MonoBehaviour
         ghostSheep.GetComponent<GhostSheepBehavior>().pause();
 
         endMenu.SetActive(true);
+        pauseMenu.SetActive(false);
         if (winner == 0)
         {
             player1Text.SetActive(true);

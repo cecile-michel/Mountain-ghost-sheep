@@ -12,26 +12,57 @@ public class MoveWithKeyboardBehavior : AgentBehaviour
 {
     Vector3 m_Movement;
     public InputKeyboard inputKeyboard;
-    private bool isPaused = false;
+    public bool isPaused;
+    public GameObject pauseMenuUI;
+
+    // to change the color of the cellulo (doesn't work if I put it in another script idk why)
+    public int player;
+    private ChangeColor ChangeColor;
+    
+    void Start()
+    {
+        isPaused = false;
+        Time.timeScale = 1f;
+        // initialise color of the cellulos
+        if (player == 0) {
+            agent.SetVisualEffect(0, ChangeColor.joueur1, 0);
+        } else {
+            agent.SetVisualEffect(0, ChangeColor.joueur2, 0);
+        }
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        if(Input.GetKeyDown("space") && isPaused == false){
+            pause();
+        
+        } else if(Input.GetKeyDown("space") && isPaused == true){
+            unPause();
+        }
+
+                
+    }
+    
+
+
 
     public override Steering GetSteering()
     {
         Steering steering = new Steering();
-
-        if (isPaused)
-        {
-            return steering;
-        }
+        
         float horizontal = 0;
         float vertical = 0;
         
-       if(InputKeyboard.wasd == inputKeyboard){
+        if(InputKeyboard.wasd == inputKeyboard){
            horizontal = Input.GetAxis ("Horizontal_wasd");
            vertical = Input.GetAxis ("Vertical_wasd");
+           Time.timeScale = 1f;
            
         } else if (InputKeyboard.arrows == inputKeyboard) {
             horizontal = Input.GetAxis ("Horizontal_arrows");
             vertical = Input.GetAxis ("Vertical_arrows");
+            Time.timeScale = 1f;
         }
         
         steering.linear = new Vector3(horizontal, 0, vertical)* agent.maxAccel; 
@@ -42,10 +73,30 @@ public class MoveWithKeyboardBehavior : AgentBehaviour
 
     public void pause()
     {
+        pauseMenuUI.SetActive(true);
+        Time.timeScale = 0f;
         isPaused = true;
+
     }
     public void unPause()
     {
+        pauseMenuUI.SetActive(false);
+        Time.timeScale = 1f;
         isPaused = false;
+
+    }
+
+    // functions for step 1 milestone 2 (on ice and on stone)
+    public void changeDrivability(bool b) {
+        agent.SetCasualBackdriveAssistEnabled(b);
+    }
+
+    public void changeWalkOnTexture(int choice) {
+        // if choice == 1 move on stone else move on ice
+        if (choice == 1) {
+            agent.MoveOnStone();
+        } else {
+            agent.MoveOnIce();
+        }
     }
 }
