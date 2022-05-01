@@ -34,7 +34,9 @@ public class GemTrigger : MonoBehaviour
 
     void respawn()
     {
-        this.gameObject.transform.SetPositionAndRotation(new Vector3(Random.Range(-11, 15), -4.7f, Random.Range(-7.5f, 11)), this.transform.rotation);
+        float x = Random.Range(-Config.UNITY_MAP_DIMENSION_X / 2, Config.UNITY_MAP_DIMENSION_X / 2);
+        float y = Random.Range(-Config.UNITY_MAP_DIMENSION_Y / 2, Config.UNITY_MAP_DIMENSION_Y / 2);
+        this.gameObject.transform.localPosition = new Vector3(x, -4.7f, y);
         this.gameObject.SetActive(true);
         spawnGem.Play();
     }
