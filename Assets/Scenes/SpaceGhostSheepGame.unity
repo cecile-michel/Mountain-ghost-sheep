@@ -2887,6 +2887,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 215803443}
     m_Modifications:
+    - target: {fileID: 2364173123880399170, guid: d44936f6062330e28ab4d37456de1881, type: 3}
+      propertyPath: isMoved
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3040563576298773591, guid: d44936f6062330e28ab4d37456de1881, type: 3}
       propertyPath: m_Name
       value: CelluloSheep
