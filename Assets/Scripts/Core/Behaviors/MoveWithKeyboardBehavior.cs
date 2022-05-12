@@ -6,7 +6,8 @@ using UnityEngine.UI;
 //Input Keys
 public enum InputKeyboard{
     arrows = 0, 
-    wasd = 1
+    wasd = 1,
+    ijkl = 2
 }
 
 public class MoveWithKeyboardBehavior : AgentBehaviour
@@ -78,6 +79,9 @@ public class MoveWithKeyboardBehavior : AgentBehaviour
         } else if (InputKeyboard.arrows == inputKeyboard) {
             horizontal = Input.GetAxis ("Horizontal_arrows");
             vertical = Input.GetAxis ("Vertical_arrows");
+        } else if (InputKeyboard.ijkl == inputKeyboard) {
+            horizontal = Input.GetAxis ("Horizontal_ijkl");
+            vertical = Input.GetAxis ("Vertical_ijkl");
         }
         
         steering.linear = new Vector3(horizontal, 0, vertical)* agent.maxAccel; 

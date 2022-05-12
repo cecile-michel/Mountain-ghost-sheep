@@ -12,6 +12,7 @@ public class ChangeColor : MonoBehaviour
     public Slider blue;
     static public Color joueur1 = new Color(0, 0, 1);
     static public Color joueur2 = new Color(1, 0.5f, 0);
+    static public Color joueur3 = new Color(1, 0.3f, 1);
     public int player;
     // Start is called before the first frame update
     void Start()
@@ -25,21 +26,24 @@ public class ChangeColor : MonoBehaviour
         blue.minValue = 0f;
         blue.maxValue = 1f;
         text.color = new Color(red.value, green.value, blue.value);
-        if (player == 0) {
-            joueur1 = text.color;
-        } else {
-            joueur2 = text.color;
-        }
+        update_colors(player, text.color);
+        
     }
 
     // Update is called once per frame
     void Update()
     {
         text.color = new Color(red.value, green.value, blue.value);
+        update_colors(player, text.color);
+    }
+
+    private static void update_colors(int player, Color color) {
         if (player == 0) {
-            joueur1 = text.color;
-        } else {
-            joueur2 = text.color;
+            joueur1 = color;
+        } else if (player == 1) {
+            joueur2 = color;
+        } else if (player == 3) {
+            joueur3 = color;
         }
     }
 }
