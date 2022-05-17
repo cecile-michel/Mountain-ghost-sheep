@@ -7,7 +7,8 @@ using UnityEngine.UI;
 public enum InputKeyboard{
     arrows = 0, 
     wasd = 1,
-    ijkl = 2
+    ijkl = 2,
+    bot = 3
 }
 
 public class MoveWithKeyboardBehavior : AgentBehaviour
