@@ -7,6 +7,13 @@ TagManager:
   - GhostSheep
   - score1
   - PowerUp
+  - RedGems
+  - Pac-gommes
+  - MurErase
+  - Star
+  - GreenGem
+  - MurAdd
+  - Cherry
   layers:
   - Default
   - TransparentFX
