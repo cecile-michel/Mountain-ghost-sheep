@@ -14,6 +14,8 @@ TagManager:
   - GreenGem
   - MurAdd
   - Cherry
+  - Ghost
+  - Pacman
   layers:
   - Default
   - TransparentFX

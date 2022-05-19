@@ -18,7 +18,7 @@ public class MoveWithKeyboardBehavior : AgentBehaviour
     public bool isPaused;
     public bool longPressed = false;
     public bool isRunning = false;
-    public GameObject pauseMenuUI;
+    public GameObject pauseMenuUI = null;
     public bool gameOver;
 
     // to change the color of the cellulo (doesn't work if I put it in another script idk why)
@@ -104,25 +104,29 @@ public class MoveWithKeyboardBehavior : AgentBehaviour
 
     public void pause()
     {
-        pauseMenuUI.SetActive(true);
-        Time.timeScale = 0f;
-        isPaused = true;
-        GameObject ghostSheep = GameObject.FindGameObjectWithTag("GhostSheep");
-        ghostSheep.GetComponent<GhostSheepBehavior>().pause();
+        if (player == 0) {
+            pauseMenuUI.SetActive(true);
+            Time.timeScale = 0f;
+            isPaused = true;
+            // GameObject ghostSheep = GameObject.FindGameObjectWithTag("GhostSheep");
+            // ghostSheep.GetComponent<GhostSheepBehavior>().pause();
+        }
     }
     public void unPause()
     {
-        if (!isRunning)
-        {
-            pauseMenuUI.transform.Find("StartButton").gameObject.GetComponent<Button>().onClick.Invoke();
-        }
-        else
-        {
-            pauseMenuUI.SetActive(false);
-            Time.timeScale = 1f;
-            isPaused = false;
-            GameObject ghostSheep = GameObject.FindGameObjectWithTag("GhostSheep");
-            ghostSheep.GetComponent<GhostSheepBehavior>().unPause();
+        if (player == 0) {
+            if (!isRunning)
+            {
+                pauseMenuUI.transform.Find("StartButton").gameObject.GetComponent<Button>().onClick.Invoke();
+            }
+            else
+            {
+                pauseMenuUI.SetActive(false);
+                Time.timeScale = 1f;
+                isPaused = false;
+                // GameObject ghostSheep = GameObject.FindGameObjectWithTag("GhostSheep");
+                // ghostSheep.GetComponent<GhostSheepBehavior>().unPause();
+            }
         }
     }
 
