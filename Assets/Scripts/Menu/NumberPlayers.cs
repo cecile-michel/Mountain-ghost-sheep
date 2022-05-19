@@ -17,8 +17,8 @@ public class NumberPlayers : MonoBehaviour
         3 = bot
     */
     static public int player1 = 0;
-    static public int player2 = 0;
-    static public int player3 = 0;
+    static public int player2 = 1;
+    static public int player3 = 2;
     // Start is called before the first frame update
     void Start()
     {

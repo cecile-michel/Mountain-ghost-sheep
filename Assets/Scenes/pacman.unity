@@ -428,7 +428,7 @@ MonoBehaviour:
   isRunning: 0
   pauseMenuUI: {fileID: 0}
   gameOver: 0
-  player: 0
+  player: 2
 --- !u!1 &1817965121
 GameObject:
   m_ObjectHideFlags: 0
@@ -613,4 +613,4 @@ MonoBehaviour:
   isRunning: 0
   pauseMenuUI: {fileID: 0}
   gameOver: 0
-  player: 0
+  player: 1
