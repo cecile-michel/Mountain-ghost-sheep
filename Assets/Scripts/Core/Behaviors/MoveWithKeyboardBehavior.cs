@@ -5,8 +5,8 @@ using UnityEngine.UI;
 
 //Input Keys
 public enum InputKeyboard{
-    arrows = 0, 
-    wasd = 1,
+    wasd = 0, 
+    arrows = 1,
     ijkl = 2,
     bot = 3
 }
