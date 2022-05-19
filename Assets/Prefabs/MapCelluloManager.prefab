@@ -1279,7 +1279,7 @@ SpriteRenderer:
   m_Size: {x: 11230, y: 15880}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!65 &1300460603369726361
@@ -1819,7 +1819,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 0
+  m_PresetInfoIsWorld: 1
 --- !u!114 &1300460603572157318
 MonoBehaviour:
   m_ObjectHideFlags: 0
