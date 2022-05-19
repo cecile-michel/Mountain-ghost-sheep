@@ -6,7 +6,9 @@ using UnityEngine.UI;
 //Input Keys
 public enum InputKeyboard{
     arrows = 0, 
-    wasd = 1
+    wasd = 1,
+    ijkl = 2,
+    bot = 3
 }
 
 public class MoveWithKeyboardBehavior : AgentBehaviour
@@ -23,6 +25,9 @@ public class MoveWithKeyboardBehavior : AgentBehaviour
     public int player;
     private ChangeColor ChangeColor;
 
+    // to assign the right keys for the players
+    private NumberPlayers numberPlayers;
+
     private Vector3 initPosition;
     private Quaternion initRotation;
     
@@ -35,9 +40,17 @@ public class MoveWithKeyboardBehavior : AgentBehaviour
         // initialise color of the cellulos
         if (player == 0) {
             agent.SetVisualEffect(0, ChangeColor.joueur1, 0);
-        } else {
+            inputKeyboard = (InputKeyboard) NumberPlayers.player1;
+        } else if (player == 1) {
             agent.SetVisualEffect(0, ChangeColor.joueur2, 0);
+            inputKeyboard = (InputKeyboard) NumberPlayers.player2;
+
+        } else {
+            agent.SetVisualEffect(0, ChangeColor.joueur3, 0);
+            inputKeyboard = (InputKeyboard) NumberPlayers.player3;
+
         }
+
     }
 
     public void restartGame()
@@ -78,6 +91,9 @@ public class MoveWithKeyboardBehavior : AgentBehaviour
         } else if (InputKeyboard.arrows == inputKeyboard) {
             horizontal = Input.GetAxis ("Horizontal_arrows");
             vertical = Input.GetAxis ("Vertical_arrows");
+        } else if (InputKeyboard.ijkl == inputKeyboard) {
+            horizontal = Input.GetAxis ("Horizontal_ijkl");
+            vertical = Input.GetAxis ("Vertical_ijkl");
         }
         
         steering.linear = new Vector3(horizontal, 0, vertical)* agent.maxAccel; 
