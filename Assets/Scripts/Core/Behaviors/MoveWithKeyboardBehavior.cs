@@ -31,6 +31,8 @@ public class MoveWithKeyboardBehavior : AgentBehaviour
     private Vector3 initPosition;
     private Quaternion initRotation;
     
+    private bool immobilized = false;
+    
     void Start()
     {
         gameOver = false;
@@ -84,21 +86,23 @@ public class MoveWithKeyboardBehavior : AgentBehaviour
         float horizontal = 0;
         float vertical = 0;
         
-        if(InputKeyboard.wasd == inputKeyboard){
+        if(InputKeyboard.wasd == inputKeyboard && !immobilized){
            horizontal = Input.GetAxis ("Horizontal_wasd");
            vertical = Input.GetAxis ("Vertical_wasd");
            
-        } else if (InputKeyboard.arrows == inputKeyboard) {
+        } else if (InputKeyboard.arrows == inputKeyboard && !immobilized) {
             horizontal = Input.GetAxis ("Horizontal_arrows");
             vertical = Input.GetAxis ("Vertical_arrows");
-        } else if (InputKeyboard.ijkl == inputKeyboard) {
+        } else if (InputKeyboard.ijkl == inputKeyboard && !immobilized) {
             horizontal = Input.GetAxis ("Horizontal_ijkl");
             vertical = Input.GetAxis ("Vertical_ijkl");
         }
         
-        steering.linear = new Vector3(horizontal, 0, vertical)* agent.maxAccel; 
-        steering.linear = this.transform.parent.TransformDirection(Vector3.ClampMagnitude(steering.linear, agent.maxAccel));
 
+        steering.linear = new Vector3(horizontal, 0, vertical)* (agent.maxAccel); 
+        steering.linear = this.transform.parent.TransformDirection(Vector3.ClampMagnitude(steering.linear, (agent.maxAccel)));
+
+        
         return steering;
     }
 
@@ -173,5 +177,13 @@ public class MoveWithKeyboardBehavior : AgentBehaviour
             longPressed = true;
         }
         base.OnCelluloLongTouch(key);
+    }
+
+    public void immobilize() {
+        
+        immobilized = !immobilized;
+        if (immobilized) {
+            Invoke("immobilize", 4);
+        }
     }
 }

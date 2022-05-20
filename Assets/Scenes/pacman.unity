@@ -234,6 +234,7 @@ MonoBehaviour:
   pauseMenuUI: {fileID: 0}
   gameOver: 0
   player: 0
+  test: 0
 --- !u!1 &863740906
 GameObject:
   m_ObjectHideFlags: 0
@@ -356,7 +357,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4214186027875092558, guid: d44936f6062330e28ab4d37456de1881, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 10
+      value: 14
       objectReference: {fileID: 0}
     - target: {fileID: 4214186027875092558, guid: d44936f6062330e28ab4d37456de1881, type: 3}
       propertyPath: m_LocalPosition.y
@@ -429,6 +430,7 @@ MonoBehaviour:
   pauseMenuUI: {fileID: 0}
   gameOver: 0
   player: 2
+  test: 0
 --- !u!1 &1817965121
 GameObject:
   m_ObjectHideFlags: 0
@@ -541,7 +543,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4214186027875092558, guid: d44936f6062330e28ab4d37456de1881, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 3
+      value: 14
       objectReference: {fileID: 0}
     - target: {fileID: 4214186027875092558, guid: d44936f6062330e28ab4d37456de1881, type: 3}
       propertyPath: m_LocalPosition.y
@@ -549,7 +551,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4214186027875092558, guid: d44936f6062330e28ab4d37456de1881, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -5
+      value: -7
       objectReference: {fileID: 0}
     - target: {fileID: 4214186027875092558, guid: d44936f6062330e28ab4d37456de1881, type: 3}
       propertyPath: m_LocalRotation.w
@@ -614,3 +616,4 @@ MonoBehaviour:
   pauseMenuUI: {fileID: 0}
   gameOver: 0
   player: 1
+  test: 0
