@@ -9320,6 +9320,18 @@ MonoBehaviour:
   level2: {fileID: 29227959}
   level3: {fileID: 510198717}
   cherry: {fileID: 290271704}
+--- !u!114 &1237726670
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1237726668}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d6b4d837aa1e50a4882cd415696d394c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1242411083
 GameObject:
   m_ObjectHideFlags: 0

@@ -9,10 +9,14 @@ public class EatObject : MonoBehaviour
 
     public GameObject player;
 
+    private GameObject[] ghosts;
+    private GameObject pacman;
     // Start is called before the first frame update
     void Start()
     {
-        
+        ghosts = GameObject.FindGameObjectsWithTag("Ghost");
+        pacman = GameObject.FindGameObjectWithTag("Pacman");
+
     }
     
     void OnTriggerEnter(Collider other){
@@ -26,7 +30,9 @@ public class EatObject : MonoBehaviour
                 // TODO make the ghosts afraid
             } else if (other.transform.CompareTag("Star")) {
                 other.transform.gameObject.SetActive(false);
-                // TODO make the pacman faster
+                // make the ghost immobilized
+                ghosts[0].GetComponent<MoveWithKeyboardBehavior>().immobilize();
+                ghosts[1].GetComponent<MoveWithKeyboardBehavior>().immobilize();
             } else if (other.transform.CompareTag("Cherry")) {
                 other.transform.gameObject.SetActive(false);
                 //go to the next level
@@ -36,7 +42,8 @@ public class EatObject : MonoBehaviour
         } else if (player.CompareTag("Ghost")) {
             if (other.transform.CompareTag("GreenGem")) {
                 other.transform.gameObject.SetActive(false);
-                // TODO immobiliser le pacman
+                // immobiliser le pacman
+                pacman.GetComponent<MoveWithKeyboardBehavior>().immobilize();
             }
         }
     }
