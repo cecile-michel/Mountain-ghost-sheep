@@ -12,9 +12,18 @@ EditorBuildSettings:
     path: Assets/Scenes/SpaceGhostSheepGame.unity
     guid: fb7b2b9837997449888ee900a1d38fa1
   - enabled: 1
-    path: Assets/Scenes/QuitScene.unity
-    guid: 884dde49518f84417a20da3ab81e4708
-  - enabled: 1
     path: Assets/Scenes/ChooseLevel.unity
     guid: 37bba13f977d249bc9a9455032fd59ee
+  - enabled: 1
+    path: Assets/Scenes/Maze_01.unity
+    guid: db899b742a9034fa39bdb190d9462cad
+  - enabled: 1
+    path: Assets/Scenes/Maze_02.unity
+    guid: 97e1f5ebde3fc41789becfc98fa003f4
+  - enabled: 1
+    path: Assets/Scenes/Maze_03.unity
+    guid: d87a936e5b00e402db35071c9cf3a462
+  - enabled: 1
+    path: Assets/Scenes/QuitScene.unity
+    guid: 884dde49518f84417a20da3ab81e4708
   m_configObjects: {}
