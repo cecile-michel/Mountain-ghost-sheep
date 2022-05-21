@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 using TMPro;
 
 public class PacmanGameManager : MonoBehaviour
@@ -11,6 +12,8 @@ public class PacmanGameManager : MonoBehaviour
     public GameObject timer;
 
     public Text textFin;
+
+    private int LAST_MAZE_ID = 5;
 
     private Score score;
     // Start is called before the first frame update
@@ -23,13 +26,11 @@ public class PacmanGameManager : MonoBehaviour
     public void startGame() {
         foreach (GameObject player in GameObject.FindGameObjectsWithTag("Pacman"))
         {
-            print(player);
             player.GetComponent<MoveWithKeyboardBehavior>().restartGame();
             player.GetComponent<Score>().resetScore();
         }
 
         foreach (GameObject ghost in GameObject.FindGameObjectsWithTag("Ghost")) {
-            print(ghost);
             ghost.GetComponent<MoveWithKeyboardBehavior>().restartGame();
         }
         
@@ -51,8 +52,6 @@ public class PacmanGameManager : MonoBehaviour
 
     public void endGame()
     {
-        int winner = -1;
-        int maxScore = int.MinValue;
         GameObject[] players = GameObject.FindGameObjectsWithTag("Pacman");
         foreach (GameObject player in players)
         {
@@ -69,6 +68,30 @@ public class PacmanGameManager : MonoBehaviour
         }
         
         textFin.text = "Pacman a eu " + Score.pacmanScore + " points";
+        endMenu.SetActive(true);
+        pauseMenu.SetActive(false);
+    }
+
+    public void endOfMaze() {
+        if (SceneManager.GetActiveScene().buildIndex != LAST_MAZE_ID) {
+            endGameOfIntermediateMaze();
+        } else {
+            endGame();
+        }
+    }
+
+    private void endGameOfIntermediateMaze() {
+        GameObject[] players = GameObject.FindGameObjectsWithTag("Pacman");
+
+        foreach (GameObject player in players)
+        {
+            player.GetComponent<MoveWithKeyboardBehavior>().pause();
+        }
+        GameObject[] ghosts = GameObject.FindGameObjectsWithTag("Ghost");
+        foreach (GameObject ghost in ghosts)
+        {
+            ghost.GetComponent<MoveWithKeyboardBehavior>().pause();
+        }
         endMenu.SetActive(true);
         pauseMenu.SetActive(false);
     }

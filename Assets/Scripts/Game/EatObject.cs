@@ -11,8 +11,7 @@ public class EatObject : MonoBehaviour
 
     private GameObject[] ghosts;
     private GameObject pacman;
-    private ChangeScene changeScene;
-
+    public PacmanGameManager pacmanGameManager;
     // Start is called before the first frame update
     void Start()
     {
@@ -44,8 +43,7 @@ public class EatObject : MonoBehaviour
                 other.transform.gameObject.SetActive(false);
                 pacman.GetComponent<Score>().addScore(10);
                 // go to the next level
-                ChangeScene.moveToScene(SceneManager.GetActiveScene().buildIndex+1);
-                
+                pacmanGameManager.endOfMaze();                
             }
         } else if (player.CompareTag("Ghost")) {
             if (other.transform.CompareTag("GreenGem")) {
