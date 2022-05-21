@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using System;
+using UnityEngine.SceneManagement;
 
 /**
 	This class is the implementation of the timer used in the game and how it is handled in it
@@ -18,6 +19,10 @@ public class Timer : MonoBehaviour
     private float timeLeft;
 
     private TimeManager TimeManager;
+    private ChangeScene changeScene;
+
+    private int LAST_MAZE_ID = 5;
+
 
     public enum TypeOfGame {
         spaceGhostSheep = 0,
@@ -51,6 +56,11 @@ public class Timer : MonoBehaviour
                 gameManager.endGame();
             } else if (gameType == TypeOfGame.pacman) {
                 // TODO implement for the last maze (end) and switch scene if the time is finished
+                if (SceneManager.GetActiveScene().buildIndex != LAST_MAZE_ID) {
+                    ChangeScene.moveToScene(SceneManager.GetActiveScene().buildIndex+1);
+                } else {
+                    PacmanGameManager.endGame();
+                }
             }
             
         }        

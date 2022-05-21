@@ -1,20 +1,22 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
 
 public class PacmanGameManager : MonoBehaviour
 {
     public GameObject endMenu;
     public GameObject pauseMenu;
-    public GameObject player1Text;
-    public GameObject player2Text;
-    public GameObject bothText;
     public GameObject timer;
+
+    public Text textFin;
+
+    private Score score;
     // Start is called before the first frame update
     void Start()
     {
-        // endMenu.SetActive(false);
+        endMenu.SetActive(false);
         Time.timeScale = 0f;
     }
 
@@ -57,38 +59,17 @@ public class PacmanGameManager : MonoBehaviour
             player.GetComponent<MoveWithKeyboardBehavior>().isRunning = false;
             player.GetComponent<MoveWithKeyboardBehavior>().gameOver = true;
             player.GetComponent<MoveWithKeyboardBehavior>().pause();
-            if (player.GetComponent<Score>().score > maxScore)
-            {
-                maxScore = player.GetComponent<Score>().score;
-                winner = (int)player.GetComponent<Score>().dog;
-            } else if (player.GetComponent<Score>().score == maxScore)
-            {
-                winner = -1;
-            }
         }
-
-        GameObject ghostSheep = GameObject.FindGameObjectWithTag("GhostSheep");
-        ghostSheep.GetComponent<GhostSheepBehavior>().pause();
-
+        GameObject[] ghosts = GameObject.FindGameObjectsWithTag("Ghost");
+        foreach (GameObject ghost in ghosts)
+        {
+            ghost.GetComponent<MoveWithKeyboardBehavior>().isRunning = false;
+            ghost.GetComponent<MoveWithKeyboardBehavior>().gameOver = true;
+            ghost.GetComponent<MoveWithKeyboardBehavior>().pause();
+        }
+        
+        textFin.text = "Pacman a eu " + Score.pacmanScore + " points";
         endMenu.SetActive(true);
         pauseMenu.SetActive(false);
-        if (winner == 0)
-        {
-            player1Text.SetActive(true);
-            player2Text.SetActive(false);
-            bothText.SetActive(false);
-        }
-        else if (winner == 1)
-        {
-            player2Text.SetActive(true);
-            player1Text.SetActive(false);
-            bothText.SetActive(false);
-        }
-        else if (winner == -1)
-        {
-            bothText.SetActive(true);
-            player1Text.SetActive(false);
-            player2Text.SetActive(false);
-        }
     }
 }
