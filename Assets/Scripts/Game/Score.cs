@@ -6,12 +6,17 @@ using UnityEngine.UI;
 
 public class Score : MonoBehaviour {
 
+    // keeps it for the ghost sheep game
     public int score;
+
+    public static int pacmanScore = 0;
+
     public Text text;
     public enum Dog {
         dog1 = 0,
         dog2 = 1,
-        null_ = 2
+        null_ = 2,
+        pacman = 3
     }
     public Dog dog;
     public AudioSource losePoint;
@@ -19,16 +24,24 @@ public class Score : MonoBehaviour {
     
     public void Start() {
         displayScore();
+        if (dog == Dog.pacman) {
+            score = pacmanScore;
+        }
     }
 
     public void resetScore()
     {
-        score = 0;
+        if (dog == Dog.pacman) {
+            score = pacmanScore;
+        } else {
+            score = 0;
+        }
         displayScore();
     }
 
     public void addScore(int amount = 1){
         score = score + amount;
+        pacmanScore += amount;
         winPoint.Play();
         displayScore();
     }
@@ -37,6 +50,7 @@ public class Score : MonoBehaviour {
         int diff = Mathf.Min(score, amount);
         if (diff > 0) {
             score = score - amount;
+            pacmanScore -= amount;
             losePoint.Play();
         }
         displayScore();
@@ -45,10 +59,12 @@ public class Score : MonoBehaviour {
     }
 
     public void displayScore() {
-        if (dog == 0) {
+        if (dog == Dog.dog1) {
             text.text = "Score joueur 1: " + score;
-        } else {
+        } else if (dog == Dog.dog2) {
             text.text = "Score joueur 2: " + score;
+        } else if (dog == Dog.pacman) {
+            text.text = "pacman: " + pacmanScore;
         }
     }
 }

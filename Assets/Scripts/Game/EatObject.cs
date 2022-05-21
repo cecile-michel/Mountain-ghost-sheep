@@ -11,6 +11,8 @@ public class EatObject : MonoBehaviour
 
     private GameObject[] ghosts;
     private GameObject pacman;
+    private ChangeScene changeScene;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -24,19 +26,25 @@ public class EatObject : MonoBehaviour
         if (player.CompareTag("Pacman")) {
             if (other.transform.CompareTag("Pac-gommes")) {
                 other.transform.gameObject.SetActive(false);
-                // TODO increase the score
+                // increase the score
+                pacman.GetComponent<Score>().addScore();
             } else if (other.transform.CompareTag("RedGems")) {
                 other.transform.gameObject.SetActive(false);
+                pacman.GetComponent<Score>().addScore(10);
                 // TODO make the ghosts afraid
+                
             } else if (other.transform.CompareTag("Star")) {
                 other.transform.gameObject.SetActive(false);
+                pacman.GetComponent<Score>().addScore(10);
+
                 // make the ghost immobilized
                 ghosts[0].GetComponent<MoveWithKeyboardBehavior>().immobilize();
                 ghosts[1].GetComponent<MoveWithKeyboardBehavior>().immobilize();
             } else if (other.transform.CompareTag("Cherry")) {
                 other.transform.gameObject.SetActive(false);
-                //go to the next level
-                GoToNextLevel.changeScene(SceneManager.GetActiveScene().buildIndex+1);
+                pacman.GetComponent<Score>().addScore(10);
+                // go to the next level
+                ChangeScene.moveToScene(SceneManager.GetActiveScene().buildIndex+1);
                 
             }
         } else if (player.CompareTag("Ghost")) {
@@ -44,6 +52,7 @@ public class EatObject : MonoBehaviour
                 other.transform.gameObject.SetActive(false);
                 // immobiliser le pacman
                 pacman.GetComponent<MoveWithKeyboardBehavior>().immobilize();
+                pacman.GetComponent<Score>().removeScore(5);
             }
         }
     }

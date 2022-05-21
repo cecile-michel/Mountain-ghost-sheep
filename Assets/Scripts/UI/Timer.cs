@@ -9,13 +9,21 @@ public class Timer : MonoBehaviour
 {
     private float initTimerValue;
     private Text timerText;
-    public Slider slider;
     private float maxMinutes = 2;
+
+
     public GameManager gameManager;
+    public PacmanGameManager PacmanGameManager;
 
     private float timeLeft;
 
     private TimeManager TimeManager;
+
+    public enum TypeOfGame {
+        spaceGhostSheep = 0,
+        pacman = 1
+    }
+    public TypeOfGame gameType;
 
     public void Awake() {
         initTimerValue = Time.time; 
@@ -39,7 +47,12 @@ public class Timer : MonoBehaviour
 
         } else if (Time.timeScale > 0f){
             Time.timeScale = 0f;
-            gameManager.endGame();
+            if (gameType == TypeOfGame.spaceGhostSheep) {
+                gameManager.endGame();
+            } else if (gameType == TypeOfGame.pacman) {
+                // TODO implement for the last maze (end) and switch scene if the time is finished
+            }
+            
         }        
     }
 

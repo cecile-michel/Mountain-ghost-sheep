@@ -110,11 +110,14 @@ public class MoveWithKeyboardBehavior : AgentBehaviour
     {
         if (player == 0) {
             pauseMenuUI.SetActive(true);
-            Time.timeScale = 0f;
-            isPaused = true;
-            // GameObject ghostSheep = GameObject.FindGameObjectWithTag("GhostSheep");
-            // ghostSheep.GetComponent<GhostSheepBehavior>().pause();
+            // keeps for the ghost sheep game
+            GameObject ghostSheep = GameObject.FindGameObjectWithTag("GhostSheep");
+            if (ghostSheep != null) {
+                ghostSheep.GetComponent<GhostSheepBehavior>().pause();
+            }
         }
+        Time.timeScale = 0f;
+        isPaused = true;
     }
     public void unPause()
     {
@@ -128,9 +131,13 @@ public class MoveWithKeyboardBehavior : AgentBehaviour
                 pauseMenuUI.SetActive(false);
                 Time.timeScale = 1f;
                 isPaused = false;
+                
                 // GameObject ghostSheep = GameObject.FindGameObjectWithTag("GhostSheep");
                 // ghostSheep.GetComponent<GhostSheepBehavior>().unPause();
             }
+        } else if (isRunning) {
+            Time.timeScale = 1f;
+            isPaused = false;
         }
     }
 
