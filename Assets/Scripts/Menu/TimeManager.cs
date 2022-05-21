@@ -7,7 +7,7 @@ public class TimeManager : MonoBehaviour
 {
 
     public Slider slider;
-    public static float time = 2;
+    public static float time = 5;
     public Text text;
     // Start is called before the first frame update
     void Start()

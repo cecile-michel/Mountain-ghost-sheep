@@ -15,6 +15,7 @@ public class LoadPacmanMaze : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        LevelDifficulty.difficulty = 3;
        if (LevelDifficulty.difficulty == 0) {
            loadLevel(true, false, false);
        } else if (LevelDifficulty.difficulty == 1) {

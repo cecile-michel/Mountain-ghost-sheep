@@ -12,7 +12,10 @@ public class WallDisappearance : MonoBehaviour
     void Start()
     {
         walls = GameObject.FindGameObjectsWithTag("MurAdd");
-        Invoke("disappear", DISAPPEARANCE_TIME);
+        print("MUR " + walls.Length);
+        if (walls.Length != 0){
+            Invoke("disappear", DISAPPEARANCE_TIME);
+        }
     }
 
     private void disappear() {
