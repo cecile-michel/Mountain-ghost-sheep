@@ -199,4 +199,10 @@ public class CelluloManager : MonoBehaviour
         Destroy(_celluloPanelList[id]);
         _celluloPanelList.Remove(id);
     }
+
+    public void OnDestroy(){
+        _celluloList.Clear();
+        _celluloPanelList.Clear();
+        _connectedCellulos.Clear();
+    }
 }

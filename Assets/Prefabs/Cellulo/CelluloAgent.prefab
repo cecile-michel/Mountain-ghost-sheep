@@ -192,7 +192,7 @@ Transform:
   m_LocalScale: {x: 0.15, y: 0.05, z: 0.15}
   m_Children: []
   m_Father: {fileID: 6974032461906829692}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &4802681831495361078
 MeshFilter:
@@ -347,7 +347,7 @@ Transform:
   m_GameObject: {fileID: 3040563576298773591}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 3.3670034, y: 3.3670034, z: 3.3670034}
   m_Children:
   - {fileID: 3029295046865927939}
   - {fileID: 3627468794508539164}
@@ -369,7 +369,7 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 116
+  m_Constraints: 84
   m_CollisionDetection: 0
 --- !u!114 &4804574212970481870
 MonoBehaviour:
@@ -396,8 +396,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   blendWeight: 0
+  byPriority: 1
   isConnected: 0
+  updateTheta: 1
   isMoved: 1
+  simulatedTouch: 740000007200000066000000760000006200000068000000
+  ledColorWhenTouched: {r: 1, g: 1, b: 1, a: 1}
   initialColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!1 &3047742467834392985
 GameObject:
@@ -774,7 +778,7 @@ Transform:
   m_LocalScale: {x: 0.15, y: 0.05, z: 0.15}
   m_Children: []
   m_Father: {fileID: 6974032461906829692}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &3408132111531256629
 MeshFilter:
@@ -956,8 +960,8 @@ Transform:
   - {fileID: 3659825317052385795}
   - {fileID: 171946852621901286}
   - {fileID: 6848547350773842312}
-  - {fileID: 7683757931432038709}
   - {fileID: 4880160946578693578}
+  - {fileID: 7683757931432038709}
   m_Father: {fileID: 4214186027875092558}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

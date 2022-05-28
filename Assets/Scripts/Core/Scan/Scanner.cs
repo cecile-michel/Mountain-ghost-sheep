@@ -28,7 +28,9 @@ public class Scanner {
     ~Scanner()
     {
         StopScanning();
+#if !(UNITY_EDITOR_OSX || UNITY_STANDALONE_OSX)
         destroyScanner(id);
+#endif
     }
 
     // Library methods

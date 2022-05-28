@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
@@ -8,17 +9,26 @@ using UnityEngine;
 public class CelluloAgent : SteeringAgent
 {
     public Cellulo _celluloRobot; //!< Reference to the Real Cellulo Robot
-    public bool isConnected  = false; //!<Whether isConnected to Real Cellulo Robot or not.
-    public bool isMoved  = true; //!<Whether is Moved by the use or not 
-    
+    [Header ("Real Robot Settings")]
+    public bool isConnected = false; //!<Whether isConnected to Real Cellulo Robot or not.
+    public bool updateTheta = true; //!<Whether update the rotation of the robot in unity 
+    public bool isMoved = true; //!<Whether is Moved by the use or not 
+    [Header("Touch and Led Settings")]
+    public KeyCode[] simulatedTouch = new KeyCode[Config.CELLULO_KEYS] {KeyCode.T,KeyCode.R,KeyCode.F,KeyCode.V,KeyCode.B,KeyCode.H};
+    public Color ledColorWhenTouched = Color.white; 
     public int agentID { get; protected set;} //Agent Unique ID
     protected static int agentCount_static = 0;
     protected float clock_t = 0.0f; //!< Internal Clock in seconds.
 
+    private Vector3 goalPose;
+    private bool trackingGoalPose, trackTheta;
+    private bool applyingHapticFeedback = false; 
+
     private GameObject _leds;
     [SerializeField]
-    private Color initialColor; //!< Initial LED Color
+    public Color initialColor; //!< Initial LED Color
     private float controlPeriod = Config.DEFAULT_CONTROL_PERIOD;  //!< Contol loop perid
+    private Color[] previousColor = new Color[Config.CELLULO_KEYS];
 
 	/// <summary>
 	/// Called at the start to (1) assign the correct agent ID (2) set intial color. 
@@ -28,10 +38,9 @@ public class CelluloAgent : SteeringAgent
         AssignID();
         _leds = this.transform.Find("Leds").gameObject;
         SetVisualEffect(0, initialColor, 0);
-
+        for (int i = 0; i < Config.CELLULO_KEYS; i++)
+            previousColor[i] = initialColor;
     }
-
-
     /// <summary>
     /// Fixed update loop
     /// </summary>
@@ -43,6 +52,17 @@ public class CelluloAgent : SteeringAgent
             if(isConnected) RealToUnity();
         }
         base.FixedUpdate();
+    }
+
+    protected virtual void Update()
+    { 
+        for (int i = 0; i < Config.CELLULO_KEYS; i++)
+        {
+            if (Input.GetKeyDown(simulatedTouch[i]))
+                OnTouchBegan(i);
+            if (Input.GetKeyUp(simulatedTouch[i]))
+                OnTouchReleased(i);
+        }
     }
 
     /// <summary>
@@ -92,7 +112,7 @@ public class CelluloAgent : SteeringAgent
     /// <summary>
 	/// Set the reference to the robot to Null
 	/// </summary>
-    private void SetRobotToNull()
+    public void SetRobotToNull()
     {
         isConnected = false;
         _celluloRobot = null;
@@ -113,23 +133,13 @@ public class CelluloAgent : SteeringAgent
         if (_celluloRobot.ConnectionStatus == ConnectionStatus.ConnectionStatusConnected)
         {
             isConnected = true; 
-            _celluloRobot.OnKidnapped += OnKidnapped;
-            _celluloRobot.OnUnKidnapped +=OnUnKidnapped;
-            _celluloRobot.OnShutDown += OnShutDown;
-            _celluloRobot.OnTouchBegan += OnTouchBegan;
-            _celluloRobot.OnTouchReleased += OnTouchReleased;
-            _celluloRobot.OnLongTouch += OnLongTouch;
+            SubscribeToRobotEvents();
             SetVisualEffect(0, initialColor, 0);
             StartCoroutine(SendVelocityCommandsToRobot());
         }
         else if(_celluloRobot.ConnectionStatus == ConnectionStatus.ConnectionStatusDisconnected)
         {
-            _celluloRobot.OnKidnapped -= OnKidnapped;
-            _celluloRobot.OnUnKidnapped -=OnUnKidnapped;
-            _celluloRobot.OnShutDown -= OnShutDown;
-            _celluloRobot.OnTouchBegan -= OnTouchBegan;
-            _celluloRobot.OnTouchReleased -= OnTouchReleased;
-            _celluloRobot.OnLongTouch -= OnLongTouch;
+            UnsubscribeFromRobotEvents();
             StopCoroutine(SendVelocityCommandsToRobot());
             if (isConnected)
             {
@@ -138,12 +148,30 @@ public class CelluloAgent : SteeringAgent
             }
         }
     }
+    public void SubscribeToRobotEvents(){
+        _celluloRobot.OnKidnapped += OnKidnapped;
+        _celluloRobot.OnUnKidnapped +=OnUnKidnapped;
+        _celluloRobot.OnShutDown += OnShutDown;
+        _celluloRobot.OnTouchBegan += OnTouchBegan;
+        _celluloRobot.OnTouchReleased += OnTouchReleased;
+        _celluloRobot.OnLongTouch += OnLongTouch;
+    }
+    public void UnsubscribeFromRobotEvents(){
+        _celluloRobot.OnKidnapped -= OnKidnapped;
+        _celluloRobot.OnUnKidnapped -=OnUnKidnapped;
+        _celluloRobot.OnShutDown -= OnShutDown;
+        _celluloRobot.OnTouchBegan -= OnTouchBegan;
+        _celluloRobot.OnTouchReleased -= OnTouchReleased;
+        _celluloRobot.OnLongTouch -= OnLongTouch;
+        _celluloRobot.OnConnectionStatusChanged -= OnConnectionStatusChanged;
+        _celluloRobot.OnShutDown -= OnShutDown;
+    }
 
     public virtual void OnKidnapped(object sender, EventArgs e){
-        BroadcastMessage("OnCelluloKidnapped",SendMessageOptions.DontRequireReceiver);
+        SendMessage("OnCelluloKidnapped",SendMessageOptions.DontRequireReceiver);
     }
     public virtual void OnUnKidnapped(object sender, EventArgs e){
-        BroadcastMessage("OnCelluloUnKidnapped",SendMessageOptions.DontRequireReceiver);
+        SendMessage("OnCelluloUnKidnapped",SendMessageOptions.DontRequireReceiver);
     }
     public virtual void OnShutDown(object sender, EventArgs e){
         Invoke("SetRobotToNull", 1);
@@ -151,16 +179,20 @@ public class CelluloAgent : SteeringAgent
 
     protected virtual void OnLongTouch(int key)
     {
-        BroadcastMessage("OnCelluloLongTouch",key,SendMessageOptions.DontRequireReceiver);
+        SendMessage("OnCelluloLongTouch",key,SendMessageOptions.DontRequireReceiver);
     }
     protected virtual void OnTouchBegan(int key)
     {
-        BroadcastMessage("OnCelluloTouchBegan",key,SendMessageOptions.DontRequireReceiver);
+        previousColor[key] = GetLedColor(key);
+        SetVisualEffect(VisualEffect.VisualEffectConstSingle, ledColorWhenTouched, key);
+        SendMessage("OnCelluloTouchBegan",key,SendMessageOptions.DontRequireReceiver);
     }
     
     protected virtual void OnTouchReleased(int key)
     {
-        BroadcastMessage("OnCelluloTouchReleased",key,SendMessageOptions.DontRequireReceiver);
+
+        SetVisualEffect(VisualEffect.VisualEffectConstSingle, previousColor[key], key);
+        SendMessage("OnCelluloTouchReleased",key,SendMessageOptions.DontRequireReceiver);
     }
     
     /// <summary>
@@ -168,11 +200,69 @@ public class CelluloAgent : SteeringAgent
     /// </summary>
     IEnumerator SendVelocityCommandsToRobot() {
     while (true) { 
-        if(isConnected && _celluloRobot!=null && !isMoved)
-        {
-            _celluloRobot.SetGoalVelocity(Config.UnityToRealScaleInX(velocity.x),Config.UnityToRealScaleInY(velocity.z),0);
+        
+        if(isConnected && _celluloRobot!=null && !trackingGoalPose && (!isMoved ||applyingHapticFeedback))
+        {   
+            Vector2 velocityToSend = Config.UnityToRealVelocityScale(velocity.x, velocity.z);
+            _celluloRobot.SetGoalVelocity(velocityToSend.x,velocityToSend.y,rotation);
         }
         yield return new WaitForSecondsRealtime(controlPeriod);
+        }
+    }
+
+    /// <summary>
+    /// Sets the real robot velocity from the steering agent velocity
+    /// </summary>
+    IEnumerator CheckIfPoseReached() {
+    while (true) { 
+        if(isConnected && _celluloRobot!=null && trackingGoalPose)
+        {
+            if(Math.Abs(goalPose.x - transform.localPosition.x)< Config.goalPoseThreshold
+            && Math.Abs(goalPose.y - transform.localPosition.z)< Config.goalPoseThreshold
+            && (!trackTheta || Math.Abs(goalPose.z - transform.localRotation.y)< Config.goalRotationThreshold))
+                SendMessage("OnGoalPoseReached",SendMessageOptions.DontRequireReceiver);
+        }
+        yield return new WaitForSecondsRealtime(controlPeriod);
+        }
+    }
+    public virtual void OnGoalPoseReached(){
+        StopCoroutine(CheckIfPoseReached());
+        trackingGoalPose = false;
+        ClearTracking();
+    }
+
+    /// <summary>
+    /// Set goal pose (position + angle) of the cellulo robot. Disables all the velocity commands sent by unity. 
+    /// </summary>
+    public void SetGoalPose(float x, float y, float theta, float v, float w){
+        goalPose = new Vector3 (x,y,theta);
+        trackTheta = true;
+        if(isConnected){
+            trackingGoalPose = true;
+            Vector2 positionToSend = Config.UnityToRealPositionScale(x,y);
+            _celluloRobot.SetGoalPose(positionToSend.x,positionToSend.y,theta,v*Config.GetRatioUnityToRealInX(),w);
+            StartCoroutine(CheckIfPoseReached());
+            
+        }
+        else{ 
+            transform.localPosition = new Vector3(x,0,y);
+            transform.localRotation = Quaternion.Euler(0,theta,0);
+        }
+    }
+        /// <summary>
+    /// Set goal position of the cellulo robot. Disables all the velocity commands sent by unity. 
+    /// </summary>
+    public void SetGoalPosition(float x, float y, float v){
+        goalPose = new Vector3 (x,y,0);
+        trackTheta = false; 
+        if(isConnected){
+            trackingGoalPose = true;
+            Vector2 positionToSend = Config.UnityToRealPositionScale(x,y);
+            _celluloRobot.SetGoalPosition(positionToSend.x,positionToSend.y,v*Config.GetRatioUnityToRealInX());
+            StartCoroutine(CheckIfPoseReached());
+        }
+        else{ 
+            transform.localPosition = new Vector3(x,0,y);
         }
     }
 
@@ -182,8 +272,8 @@ public class CelluloAgent : SteeringAgent
     public void RealToUnity(){
         if (isConnected && _celluloRobot.pose.sqrMagnitude>0)
         {
-            transform.localPosition = new Vector3(Config.RealToUnityScaleInX(_celluloRobot.pose.x), 0, Config.RealToUnityScaleInY(_celluloRobot.pose.y));
-            transform.localRotation = Quaternion.Euler(0, _celluloRobot.pose.z, 0);
+            transform.localPosition = Config.RealToUnityPositionScale(_celluloRobot.pose.x,_celluloRobot.pose.y);
+            if(updateTheta) transform.localRotation = Quaternion.Euler(0, _celluloRobot.pose.z, 0);
         }
     }
 
@@ -203,21 +293,30 @@ public class CelluloAgent : SteeringAgent
     /// A value possibly meaningful for the effect (check VisualEffect)
     /// </param>
     public void SetVisualEffect(VisualEffect effect, Color color, int value){
-        switch(effect){
-            case VisualEffect.VisualEffectConstSingle:
-                _leds.transform.GetChild(value%6).gameObject.GetComponent<Renderer>().materials[0].color = color;
-            break;
-
-            case VisualEffect.VisualEffectConstAll:
-            default:
-                for(int i =0 ; i< _leds.transform.childCount; i++)
-                    _leds.transform.GetChild(i).gameObject.GetComponent<Renderer>().materials[0].color = color;
-            break; 
-        }
-
+        SetVisualEffectSimulated(effect, color, value);
         if(isConnected){
             _celluloRobot.SetVisualEffect((long)effect,(int)(color.r*255),(int)(color.g*255),(int)(color.b*255),value);
         }
+    }
+    public void SetVisualEffectSimulated(VisualEffect effect, Color color, int value)
+    {
+        switch (effect)
+        {
+            case VisualEffect.VisualEffectConstSingle:
+                _leds.transform.GetChild(value % Config.CELLULO_KEYS).gameObject.GetComponent<Renderer>().materials[0].color = color;
+                break;
+
+            case VisualEffect.VisualEffectConstAll:
+            default:
+                for (int i = 0; i < _leds.transform.childCount; i++)
+                    _leds.transform.GetChild(i).gameObject.GetComponent<Renderer>().materials[0].color = color;
+                break;
+        }
+    }
+
+    public Color GetLedColor(int i)
+    {
+        return _leds.transform.GetChild(i % Config.CELLULO_KEYS).gameObject.GetComponent<Renderer>().materials[0].color;
     }
 	
     public void SetSimpleVibrate(float iX, float iY, float iTheta, long period, long duration)
@@ -294,5 +393,28 @@ public class CelluloAgent : SteeringAgent
             _celluloRobot.SetHapticBackdriveAssist(-0.3f,-0.3f,0);
             _celluloRobot.VibrateOnMotion(0, 40);
         }
+    }
+    public void ClearTracking(){
+        if(isConnected){
+            _celluloRobot.ClearTracking();
+        }
+    }
+
+    public virtual void OnDestroy(){
+        if(isConnected){
+            UnsubscribeFromRobotEvents(); 
+            SetRobotToNull();
+        }
+
+    }
+    public void SetRobotScale(){
+        transform.localScale = Config.GetCelluloScale()*Vector3.one;
+    }
+    public void ActivateDirectionalHapticFeedback(){
+        applyingHapticFeedback = true; 
+    }
+    public void DeActivateDirectionalHapticFeedback(){
+        applyingHapticFeedback = false; 
+        ClearTracking();
     }
 }

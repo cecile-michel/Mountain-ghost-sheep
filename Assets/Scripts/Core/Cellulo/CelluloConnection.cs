@@ -95,6 +95,8 @@ public class CelluloConnection : MonoBehaviour
         ConnectionStatus state = agent._celluloRobot.ConnectionStatus;
         celluloElementList.ResetPanel(state);
         scannerElementList.SetConnected(state);
+        if(state == ConnectionStatus.ConnectionStatusDisconnected)
+            agent._celluloRobot.OnConnectionStatusChanged -= OnConnectionStatusChanged;
 
     }
 
@@ -107,18 +109,15 @@ public class CelluloConnection : MonoBehaviour
         {
             CelluloManager._connectedCellulos.Remove(celluloElementList.GetId());
             agent._celluloRobot.DisconnectFromServer();
-            agent._celluloRobot.OnConnectionStatusChanged -= OnConnectionStatusChanged;
-            agent._celluloRobot.OnConnectionStatusChanged -= agent.OnConnectionStatusChanged;
-            agent._celluloRobot.OnShutDown -= OnShutDown;
-            agent._celluloRobot = null;
-            agent.isConnected = false;
             AssignScannerElementList();
             MacAddr = null;
         }
     }
 
-    public void onDestroy(){
+    public void OnDestroy(){
+#if !(UNITY_EDITOR_OSX || UNITY_STANDALONE_OSX)
         DisconnectFromCelluloRobot();
+#endif
     }
 
 }

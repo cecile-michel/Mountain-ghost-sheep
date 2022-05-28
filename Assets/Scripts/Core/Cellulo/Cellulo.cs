@@ -29,6 +29,7 @@ public class Cellulo
 
     private bool IsShuttingDown = false;
     private bool IsLowBattery = false;
+    private bool IsDisconnecting = false;
 
     //Events 
     public event EventHandler OnKidnapped; //!< Event when Kidnapping occurs
@@ -136,11 +137,13 @@ public class Cellulo
     /// </summary>
     ~Cellulo()
     {
+#if !(UNITY_EDITOR_OSX || UNITY_STANDALONE_OSX)
         if (id!= 0)
         {
             destroyRobot(id);
         }
         id = 0;
+#endif
     }
 
     /// <summary>
@@ -149,18 +152,25 @@ public class Cellulo
     public void UpdateProperties()
     {
         if (id != 0)
-        {   
-            if (GetKidnapped() != Kidnapped)
-            {
-                Kidnapped = GetKidnapped();
-                if(Kidnapped) OnKidnapped?.Invoke(this, EventArgs.Empty);
-                else OnUnKidnapped?.Invoke(this, EventArgs.Empty);
+        {    
+            if(IsDisconnecting && ConnectionStatus != ConnectionStatus.ConnectionStatusDisconnected){
+                ConnectionStatus = ConnectionStatus.ConnectionStatusDisconnected;
+                OnConnectionStatusChanged?.Invoke(this, EventArgs.Empty);
+                return;
             }
             if (ConnectionStatus != GetConnectionStatus())
             {
                 ConnectionStatus = GetConnectionStatus();
                 OnConnectionStatusChanged?.Invoke(this, EventArgs.Empty);
             }
+             
+            if (GetKidnapped() != Kidnapped)
+            {
+                Kidnapped = GetKidnapped();
+                if(Kidnapped) OnKidnapped?.Invoke(this, EventArgs.Empty);
+                else OnUnKidnapped?.Invoke(this, EventArgs.Empty);
+            }
+
 
             pose = new Vector3(GetX(), GetY(), GetTheta());
 
@@ -336,6 +346,7 @@ public class Cellulo
             return;
         }
         connectToServer(id);
+        IsDisconnecting = false;
     }
 
     [DllImport("cellulolib")]
@@ -352,6 +363,8 @@ public class Cellulo
             return;
         }
         disconnectFromServer(id);
+        IsDisconnecting = true;
+        //ConnectionStatus = ConnectionStatus.ConnectionStatusDisconnected;
     }
 
     /////////////////////
@@ -1159,9 +1172,9 @@ public class Cellulo
         if (id == 0)
         {
             Debug.LogWarning("Robot is broken (connection to pool failed). Cannot do API call");
-            throw new Exception("Invalid robot id");
+            //throw new Exception("Invalid robot id");
+            return ConnectionStatus.ConnectionStatusDisconnected;
         }
         return (ConnectionStatus)getConnectionStatus(id);
     }
-
 }

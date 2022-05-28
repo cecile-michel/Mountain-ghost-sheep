@@ -246,6 +246,7 @@ public class ScanPanel : MonoBehaviour
     void OnDestroy()
     {
         _scanner = null;
+        _celluloScannedList.Clear();
     }
 
 	/// <summary>

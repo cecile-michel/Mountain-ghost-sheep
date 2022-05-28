@@ -47,7 +47,7 @@ public class ScannerListElement : MonoBehaviour
 
         // Find and display corresponding id for the mac address
         string number = CelluloManager._celluloNumbers[_macAddr].ToString();
-        _nameText.text = "Cellulo " + number;
+        _nameText.text = "CELLULO " + number;
     }
 
 
