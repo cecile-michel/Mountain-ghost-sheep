@@ -576,7 +576,10 @@ MonoBehaviour:
   RealMapDimensionInX: 0
   RealMapDimensionInY: 0
   RealMapOrigin: 0
-  FlipDimensions: 0
+  ShowRealRobotPosition: 0
+  xRobot: 0
+  yRobot: 0
+  idRobot: 0
   map: {fileID: 1300460603369726367}
   spawedCellulos: {fileID: 1300460602924199587}
 --- !u!1 &1300460604099333502
@@ -730,15 +733,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4214186027875092558, guid: d44936f6062330e28ab4d37456de1881, type: 3}
       propertyPath: m_LocalScale.x
-      value: 3.3670034
+      value: 1.1890607
       objectReference: {fileID: 0}
     - target: {fileID: 4214186027875092558, guid: d44936f6062330e28ab4d37456de1881, type: 3}
       propertyPath: m_LocalScale.y
-      value: 3.3670034
+      value: 1.1890607
       objectReference: {fileID: 0}
     - target: {fileID: 4214186027875092558, guid: d44936f6062330e28ab4d37456de1881, type: 3}
       propertyPath: m_LocalScale.z
-      value: 3.3670034
+      value: 1.1890607
       objectReference: {fileID: 0}
     - target: {fileID: 4214186027875092558, guid: d44936f6062330e28ab4d37456de1881, type: 3}
       propertyPath: m_LocalPosition.x
