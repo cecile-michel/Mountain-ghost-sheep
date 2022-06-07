@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.UI;
 
 //Input Keys
@@ -32,6 +33,10 @@ public class MoveWithKeyboardBehavior : AgentBehaviour
     private Quaternion initRotation;
     
     private bool immobilized = false;
+    private bool feared = false;
+
+    private NavMeshAgent navAgent = null;
+    private GameObject pacman = null;
     
     void Start()
     {
@@ -46,11 +51,18 @@ public class MoveWithKeyboardBehavior : AgentBehaviour
         } else if (player == 1) {
             agent.SetVisualEffect(0, ChangeColor.joueur2, 0);
             inputKeyboard = (InputKeyboard) NumberPlayers.player2;
-
-        } else {
+        } else if (player == 2) {
             agent.SetVisualEffect(0, ChangeColor.joueur3, 0);
             inputKeyboard = (InputKeyboard) NumberPlayers.player3;
-
+        }
+        if (inputKeyboard == InputKeyboard.bot) {
+            navAgent = GetComponent<NavMeshAgent>();
+            GetComponent<NavMeshObstacle>().enabled = false;
+            navAgent.enabled = true;
+            navAgent.updatePosition = false;
+            navAgent.updateRotation = false;
+            navAgent.speed = agent.maxSpeed;
+            pacman = GameObject.FindGameObjectWithTag("Pacman");
         }
 
     }
@@ -76,6 +88,12 @@ public class MoveWithKeyboardBehavior : AgentBehaviour
                 unPause();
             }
         }
+
+        if (navAgent != null && !feared) {
+            if (Vector3.Distance(navAgent.destination, pacman.transform.position) > 0.9) {
+                navAgent.destination = pacman.transform.position;
+            }
+        }
     }    
 
 
@@ -97,12 +115,22 @@ public class MoveWithKeyboardBehavior : AgentBehaviour
             horizontal = Input.GetAxis ("Horizontal_ijkl");
             vertical = Input.GetAxis ("Vertical_ijkl");
         }
-        
 
-        steering.linear = new Vector3(horizontal, 0, vertical)* (agent.maxAccel); 
-        steering.linear = this.transform.parent.TransformDirection(Vector3.ClampMagnitude(steering.linear, (agent.maxAccel)));
+        if (navAgent != null && !immobilized)
+        {
+            Vector3 worldDeltaPosition = navAgent.nextPosition - transform.position;
+            if (worldDeltaPosition.magnitude > navAgent.radius/2)
+            {
+                navAgent.nextPosition = transform.position + 0.9f * worldDeltaPosition;
+            }
+            steering.linear = (navAgent.nextPosition - transform.position) * agent.maxAccel;
+        }
+        else
+        {
+            steering.linear = new Vector3(horizontal, 0, vertical) * (agent.maxAccel);
+            steering.linear = this.transform.parent.TransformDirection(Vector3.ClampMagnitude(steering.linear, (agent.maxAccel)));
+        }
 
-        
         return steering;
     }
 
@@ -187,10 +215,26 @@ public class MoveWithKeyboardBehavior : AgentBehaviour
     }
 
     public void immobilize() {
-        
         immobilized = !immobilized;
         if (immobilized) {
             Invoke("immobilize", 4);
         }
+    }
+    public void fear()
+    {
+        feared = !feared;
+        if (feared)
+        {
+            navAgent.destination = initPosition;
+            Invoke("fear", 6);
+        } else
+        {
+            navAgent.destination = pacman.transform.position;
+        }
+    }
+
+    public bool isFeared()
+    {
+        return feared;
     }
 }

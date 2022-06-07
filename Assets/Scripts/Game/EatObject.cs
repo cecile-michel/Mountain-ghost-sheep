@@ -31,14 +31,19 @@ public class EatObject : MonoBehaviour
                 other.transform.gameObject.SetActive(false);
                 pacman.GetComponent<Score>().addScore(10);
                 // TODO make the ghosts afraid
-                
+
+                foreach (GameObject ghost in ghosts) {
+                    ghost.GetComponent<MoveWithKeyboardBehavior>().fear();
+                }
             } else if (other.transform.CompareTag("Star")) {
                 other.transform.gameObject.SetActive(false);
                 pacman.GetComponent<Score>().addScore(10);
 
                 // make the ghost immobilized
-                ghosts[0].GetComponent<MoveWithKeyboardBehavior>().immobilize();
-                ghosts[1].GetComponent<MoveWithKeyboardBehavior>().immobilize();
+                foreach (GameObject ghost in ghosts)
+                {
+                    ghost.GetComponent<MoveWithKeyboardBehavior>().immobilize();
+                }
             } else if (other.transform.CompareTag("Cherry")) {
                 other.transform.gameObject.SetActive(false);
                 pacman.GetComponent<Score>().addScore(10);
