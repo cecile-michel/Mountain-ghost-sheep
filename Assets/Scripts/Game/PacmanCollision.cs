@@ -8,8 +8,15 @@ public class PacmanCollision : MonoBehaviour
 
 
     void OnCollisionEnter(Collision collision) {
-        if (collision.transform.CompareTag("Ghost") && !GetComponent<MoveWithKeyboardBehavior>().isFeared()) {
-            pacmanGameManager.endOfMaze();
+        if (collision.transform.CompareTag("Ghost")) {
+            if (collision.gameObject.GetComponent<MoveWithKeyboardBehavior>().isFeared())
+            {
+                GetComponent<Score>().addScore(15);
+            }
+            else
+            {
+                pacmanGameManager.endOfMaze();
+            }
         }
     }
 }

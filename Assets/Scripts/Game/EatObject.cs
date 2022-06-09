@@ -16,6 +16,7 @@ public class EatObject : MonoBehaviour
     void Start()
     {
         ghosts = GameObject.FindGameObjectsWithTag("Ghost");
+        print(ghosts);
         pacman = GameObject.FindGameObjectWithTag("Pacman");
 
     }
@@ -29,7 +30,7 @@ public class EatObject : MonoBehaviour
                 pacman.GetComponent<Score>().addScore();
             } else if (other.transform.CompareTag("RedGems")) {
                 other.transform.gameObject.SetActive(false);
-                pacman.GetComponent<Score>().addScore(10);
+                //pacman.GetComponent<Score>().addScore(10);
                 // TODO make the ghosts afraid
 
                 foreach (GameObject ghost in ghosts) {

@@ -58,6 +58,7 @@ public class MoveWithKeyboardBehavior : AgentBehaviour
         if (inputKeyboard == InputKeyboard.bot) {
             navAgent = GetComponent<NavMeshAgent>();
             GetComponent<NavMeshObstacle>().enabled = false;
+            GetComponent<CelluloAgentRigidBody>().isMoved = false;
             navAgent.enabled = true;
             navAgent.updatePosition = false;
             navAgent.updateRotation = false;
@@ -225,11 +226,27 @@ public class MoveWithKeyboardBehavior : AgentBehaviour
         feared = !feared;
         if (feared)
         {
-            navAgent.destination = initPosition;
-            Invoke("fear", 6);
+            if (navAgent != null)
+                navAgent.destination = initPosition;
+            agent.SetVisualEffect(0, Color.grey, 0);
+
+            Invoke("fear", 10);
         } else
         {
-            navAgent.destination = pacman.transform.position;
+            if (navAgent != null)
+                navAgent.destination = pacman.transform.position;
+            if (player == 0)
+            {
+                agent.SetVisualEffect(0, ChangeColor.joueur1, 0);
+            }
+            else if (player == 1)
+            {
+                agent.SetVisualEffect(0, ChangeColor.joueur2, 0);
+            }
+            else if (player == 2)
+            {
+                agent.SetVisualEffect(0, ChangeColor.joueur3, 0);
+            }
         }
     }
 
