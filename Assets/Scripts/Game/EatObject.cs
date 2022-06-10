@@ -29,7 +29,7 @@ public class EatObject : MonoBehaviour
                 pacman.GetComponent<Score>().addScore();
             } else if (other.transform.CompareTag("RedGems")) {
                 other.transform.gameObject.SetActive(false);
-                //pacman.GetComponent<Score>().addScore(10);
+                pacman.GetComponent<Score>().addScore(10);
                 // TODO make the ghosts afraid
 
                 foreach (GameObject ghost in ghosts) {
@@ -46,7 +46,7 @@ public class EatObject : MonoBehaviour
                 }
             } else if (other.transform.CompareTag("Cherry")) {
                 other.transform.gameObject.SetActive(false);
-                pacman.GetComponent<Score>().addScore(10);
+                pacman.GetComponent<Score>().addScore(20);
                 // go to the next level
                 pacmanGameManager.endOfMaze();                
             }
