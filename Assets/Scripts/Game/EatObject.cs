@@ -16,7 +16,6 @@ public class EatObject : MonoBehaviour
     void Start()
     {
         ghosts = GameObject.FindGameObjectsWithTag("Ghost");
-        print(ghosts);
         pacman = GameObject.FindGameObjectWithTag("Pacman");
 
     }
